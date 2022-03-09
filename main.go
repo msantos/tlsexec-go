@@ -6,6 +6,7 @@ import (
 	"errors"
 	"flag"
 	"fmt"
+	"log"
 	"net"
 	"os"
 	"os/exec"
@@ -111,11 +112,11 @@ Options:
 
 	config, err := tlsconfig(*cert, *key, *enableStrictTLS)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s: %s", os.Args[0], err)
+		log.Printf("%s: %s", os.Args[0], err)
 		os.Exit(1)
 	}
 
-	state := &stateT{
+	return &stateT{
 		argv:    flag.Args()[1:],
 		ipaddr:  flag.Arg(0),
 		cert:    *cert,
@@ -123,8 +124,6 @@ Options:
 		verbose: *verbose,
 		tls:     config,
 	}
-
-	return state
 }
 
 func main() {
@@ -135,18 +134,18 @@ func main() {
 
 	arg0, err := exec.LookPath(exe)
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "%s: %s\n", os.Args[0], err)
+		log.Printf("%s: %s\n", os.Args[0], err)
 		os.Exit(127)
 	}
 
 	conn, err := state.listen()
 	if err != nil {
-		fmt.Fprintf(os.Stderr, "listen: %s\n", err)
+		log.Printf("listen: %s\n", err)
 		os.Exit(111)
 	}
 
 	if err := setenv(conn); err != nil {
-		fmt.Fprintf(os.Stderr, "setenv: %s\n", err)
+		log.Printf("setenv: %s\n", err)
 		os.Exit(111)
 	}
 
@@ -235,7 +234,7 @@ func execv(conn net.Conn, command string, args []string, env []string) int {
 	cmd.Env = env
 
 	if err := cmd.Start(); err != nil {
-		fmt.Fprintf(os.Stderr, "%s: %s\n", os.Args[0], err)
+		log.Printf("%s: %s\n", os.Args[0], err)
 		return 127
 	}
 	waitCh := make(chan error, 1)
@@ -265,7 +264,7 @@ func execv(conn net.Conn, command string, args []string, env []string) int {
 				}
 			}
 
-			fmt.Fprintf(os.Stderr, "%s: %s", os.Args[0], err)
+			log.Printf("%s: %s", os.Args[0], err)
 			return 111
 		}
 	}
