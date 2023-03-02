@@ -65,17 +65,8 @@ func tlsconfig(cert, key string, strict bool) (*tls.Config, error) {
 		tls.TLS_RSA_WITH_AES_256_CBC_SHA,
 	}
 
-	/* allow client to choose cipher suite:
-	 *
-	 * "The cipher suites are all strong and so we allow the client
-	 *  to choose, as they will know best if they have support for
-	 *  hardware-accelerated AES"
-	 *
-	 */
-	// #nosec G402
 	config := &tls.Config{
-		PreferServerCipherSuites: false,
-		Certificates:             []tls.Certificate{certificate},
+		Certificates: []tls.Certificate{certificate},
 	}
 
 	if strict {
