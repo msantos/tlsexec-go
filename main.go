@@ -233,12 +233,20 @@ func execv(conn net.Conn, command string, args []string, env []string) int {
 		waitCh <- cmd.Wait()
 		close(waitCh)
 	}()
-	sigChan := make(chan os.Signal, 1)
-	signal.Notify(sigChan)
+
+	sigCh := make(chan os.Signal, 1)
+	signal.Notify(sigCh,
+		syscall.SIGHUP,
+		syscall.SIGINT,
+		syscall.SIGQUIT,
+		syscall.SIGTERM,
+		syscall.SIGUSR1,
+		syscall.SIGUSR2,
+	)
 
 	for {
 		select {
-		case sig := <-sigChan:
+		case sig := <-sigCh:
 			_ = cmd.Process.Signal(sig)
 		case err := <-waitCh:
 			if err == nil {
