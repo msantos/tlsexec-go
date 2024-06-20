@@ -71,7 +71,7 @@ Then run:
 
 # Build
 
-    CGO_ENABLED=0 go build -trimpath -ldflags "-s -w"
+    CGO_ENABLED=0 go build -trimpath -ldflags "-w"
 
 # OPTIONS
 
