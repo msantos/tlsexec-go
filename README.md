@@ -16,8 +16,10 @@ TLS socket:
 
 Generate a self-signed cert for testing:
 
-    openssl req -nodes -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem \
-      -days 3650 -subj '/CN=example.com'
+```
+openssl req -nodes -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem \
+  -days 3650 -subj '/CN=example.com'
+```
 
 ## echo server
 
@@ -33,15 +35,17 @@ $ tlsexec [::1]:9090 env
 
 An echo server allowing 3 concurrent connections:
 
-    service/
-    ├── echo1
-    │   └── run
-    ├── echo2
-    │   └── run
-    └── echo3
-        └── run
+```
+service/
+├── echo1
+│   └── run
+├── echo2
+│   └── run
+└── echo3
+    └── run
+```
 
-*  service/echo1/run
+* service/echo1/run
 
 ```
 #!/bin/sh
@@ -67,11 +71,15 @@ exec tlsexec 127.0.0.1:9090 cat
 
 Then run:
 
-    svscan service
+```
+svscan service
+```
 
 # Build
 
-    CGO_ENABLED=0 go build -trimpath -ldflags "-w"
+```
+CGO_ENABLED=0 go build -trimpath -ldflags "-w"
+```
 
 # OPTIONS
 
@@ -80,7 +88,7 @@ cert *string*
 
 enable-strict-tls
 : Restrict TLS protocols to TLS 1.2+ and use a reduced cipher suite for
-  TLS 1.2 (default true)
+TLS 1.2 (default true)
 
 key *string*
 : Path to TLS key file (default "key.pem")
