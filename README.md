@@ -78,7 +78,7 @@ svscan service
 # Build
 
 ```
-CGO_ENABLED=0 go build -trimpath -ldflags "-w"
+CGO_ENABLED=0 go build -C cmd/tlsexec -trimpath -ldflags "-w"
 ```
 
 # OPTIONS
