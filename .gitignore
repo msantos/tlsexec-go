@@ -15,4 +15,4 @@
 # vendor/
 
 *.pem
-tlsexec
+cmd/tlsexec
