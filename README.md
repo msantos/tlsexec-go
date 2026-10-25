@@ -16,14 +16,14 @@ TLS socket:
 
 Generate a self-signed cert for testing:
 
-```
+```bash
 openssl req -nodes -x509 -newkey rsa:4096 -keyout key.pem -out cert.pem \
   -days 3650 -subj '/CN=example.com'
 ```
 
 ## echo server
 
-```
+```bash
 $ tlsexec :9090 cat
 
 $ tlsexec 127.0.0.1:9090 cat
@@ -47,7 +47,7 @@ service/
 
 * service/echo1/run
 
-```
+```bash
 #!/bin/sh
 
 exec tlsexec 127.0.0.1:9090 cat
@@ -55,7 +55,7 @@ exec tlsexec 127.0.0.1:9090 cat
 
 * service/echo2/run
 
-```
+```bash
 #!/bin/sh
 
 exec tlsexec 127.0.0.1:9090 cat
@@ -63,7 +63,7 @@ exec tlsexec 127.0.0.1:9090 cat
 
 * service/echo3/run
 
-```
+```bash
 #!/bin/sh
 
 exec tlsexec 127.0.0.1:9090 cat
@@ -71,13 +71,13 @@ exec tlsexec 127.0.0.1:9090 cat
 
 Then run:
 
-```
+```bash
 svscan service
 ```
 
 # Build
 
-```
+```bash
 CGO_ENABLED=0 go build -C cmd/tlsexec -trimpath -ldflags "-w"
 ```
 
