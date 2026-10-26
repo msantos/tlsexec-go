@@ -1,3 +1,3 @@
 module codeberg.org/msantos/tlsexec-go
 
-go 1.20
+go 1.27
