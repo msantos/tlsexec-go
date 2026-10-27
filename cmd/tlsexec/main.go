@@ -253,8 +253,7 @@ func execv(conn net.Conn, command string, args []string, env []string) int {
 				return 0
 			}
 
-			var exitError *exec.ExitError
-			if errors.As(err, &exitError) {
+			if exitError, ok := errors.AsType[*exec.ExitError](err); ok {
 				if waitStatus, ok := exitError.Sys().(syscall.WaitStatus); ok {
 					if waitStatus.Signaled() {
 						return 128 + int(waitStatus.Signal())
